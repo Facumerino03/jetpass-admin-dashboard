@@ -1,4 +1,4 @@
-import type { FlightRules, FlightType, FlightPlanStatus, FlightPlanApprovalStatus, FlightPlanApprovalActor } from "@/types/api";
+import type { FlightRules, FlightType, FlightPlanStatus, FlightPlanApprovalStatus, FlightPlanApprovalActor, FlightPlanPublic } from "@/types/api";
 
 export const FLIGHT_RULES_LABELS: Record<FlightRules, string> = {
   V: "VFR",
@@ -58,4 +58,8 @@ export function getApprovalStatusLabel(status: FlightPlanApprovalStatus): string
 
 export function getApprovalActorLabel(actor: FlightPlanApprovalActor): string {
   return APPROVAL_ACTOR_LABELS[actor] ?? actor;
+}
+
+export function getAuthorityApproval(plan: FlightPlanPublic) {
+  return plan.approvals?.find((a) => a.actor === "authority");
 }

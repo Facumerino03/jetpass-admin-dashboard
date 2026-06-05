@@ -95,18 +95,13 @@ export interface FlightPlanPublic {
   aircraft_snapshot_confirmed_at: string | null;
   created_at: string;
   updated_at: string;
+  approvals: FlightPlanApproval[];
 }
 
 export interface PilotSummary {
   id: string;
   first_name: string;
   last_name: string;
-}
-
-// ── Flight Plan Detail ──
-export interface FlightPlanDetail extends FlightPlanPublic {
-  approvals: FlightPlanApproval[];
-  status_history: FlightPlanStatusHistory[];
 }
 
 export interface FlightPlanApproval {
@@ -127,6 +122,12 @@ export interface FlightPlanStatusHistory {
   updated_by_user_id: string | null;
   reason: string | null;
   created_at: string;
+}
+
+// ── Flight Plan Detail ──
+export interface FlightPlanDetail extends FlightPlanPublic {
+  approvals: FlightPlanApproval[];
+  status_history: FlightPlanStatusHistory[];
 }
 
 // ── Responses ──
