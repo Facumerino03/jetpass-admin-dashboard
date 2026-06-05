@@ -5,8 +5,9 @@ import { useParams } from "next/navigation";
 import { getFlightPlan } from "@/lib/api/flight-plans";
 import { FlightPlanDetailView } from "@/components/dashboard/flight-plan-detail-view";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function FlightPlanDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -45,9 +46,12 @@ export default function FlightPlanDetailPage() {
         <Button variant="outline" onClick={() => refetch()} className="mt-4">
           Reintentar
         </Button>
-        <Button variant="ghost" asChild className="mt-2">
-          <Link href="/dashboard">Volver al dashboard</Link>
-        </Button>
+        <Link
+          href="/dashboard"
+          className={cn(buttonVariants({ variant: "ghost" }), "mt-2")}
+        >
+          Volver al dashboard
+        </Link>
       </div>
     );
   }

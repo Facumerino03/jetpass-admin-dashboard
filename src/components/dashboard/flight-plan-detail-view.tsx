@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "./status-badge";
 import { ApproveButton } from "./approve-button";
 import { RejectDialog } from "./reject-dialog";
@@ -15,6 +15,7 @@ import {
   formatDuration,
   formatRoute,
 } from "@/lib/utils/format";
+import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 
 interface FlightPlanDetailViewProps {
@@ -38,12 +39,13 @@ export function FlightPlanDetailView({ plan }: FlightPlanDetailViewProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <Button variant="ghost" size="sm" asChild className="-ml-2">
-            <Link href="/dashboard">
-              <ArrowLeft className="mr-1 h-4 w-4" />
-              Volver
-            </Link>
-          </Button>
+          <Link
+            href="/dashboard"
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "-ml-2")}
+          >
+            <ArrowLeft className="mr-1 h-4 w-4" />
+            Volver
+          </Link>
           <h1 className="text-2xl font-bold tracking-tight">
             Plan de Vuelo {plan.aircraft_identification_snapshot || plan.id.slice(0, 8)}
           </h1>

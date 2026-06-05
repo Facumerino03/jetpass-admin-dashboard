@@ -28,7 +28,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserPublic | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
   const doLogout = useCallback(async () => {
     const stored = sessionStorage.getItem(REFRESH_TOKEN_KEY);
@@ -38,7 +37,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // ignore logout errors
     }
     sessionStorage.removeItem(REFRESH_TOKEN_KEY);
-    setRefreshToken(null);
     setUser(null);
     setIsAuthenticated(false);
     setAuthToken(null);
@@ -47,7 +45,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const doLogin = useCallback(async (email: string, password: string) => {
     const response = await apiLogin({ email, password });
     setAuthToken(response.access_token);
-    setRefreshToken(response.refresh_token);
     setUser(response.user);
     setIsAuthenticated(true);
     sessionStorage.setItem(REFRESH_TOKEN_KEY, response.refresh_token);
@@ -57,7 +54,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await apiRefreshToken(storedRefresh);
       setAuthToken(response.access_token);
-      setRefreshToken(response.refresh_token);
       setUser(response.user);
       setIsAuthenticated(true);
       sessionStorage.setItem(REFRESH_TOKEN_KEY, response.refresh_token);
@@ -70,6 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = sessionStorage.getItem(REFRESH_TOKEN_KEY);
     if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Auth initialization on client mount
       doRefresh(stored).finally(() => setIsLoading(false));
     } else {
       setIsLoading(false);

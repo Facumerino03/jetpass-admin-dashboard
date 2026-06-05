@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,26 +49,28 @@ export function Sidebar() {
       {/* User */}
       <div className="border-t p-4">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-full justify-start gap-3 px-2">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-blue-100 text-blue-700 text-xs">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex flex-1 items-center justify-between">
-                <div className="text-left text-sm">
-                  <p className="font-medium leading-none">
-                    {user?.first_name} {user?.last_name}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {user?.email}
-                  </p>
+          <DropdownMenuTrigger
+            render={
+              <button className={cn(buttonVariants({ variant: "ghost" }), "w-full justify-start gap-3 px-2")}>
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-blue-100 text-blue-700 text-xs">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-1 items-center justify-between">
+                  <div className="text-left text-sm">
+                    <p className="font-medium leading-none">
+                      {user?.first_name} {user?.last_name}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {user?.email}
+                    </p>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
                 </div>
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
+              </button>
+            }
+          />
           <DropdownMenuContent align="start" className="w-56">
             <DropdownMenuItem onClick={logout} className="text-red-600">
               <LogOut className="mr-2 h-4 w-4" />

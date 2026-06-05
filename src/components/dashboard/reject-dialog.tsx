@@ -12,11 +12,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { rejectFlightPlan } from "@/lib/api/flight-plans";
 import { ApiError } from "@/lib/api/client";
+import { cn } from "@/lib/utils";
 
 interface RejectDialogProps {
   planId: string;
@@ -66,11 +67,13 @@ export function RejectDialog({ planId }: RejectDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button size="sm" variant="outline" className="text-red-600 border-red-200 hover:bg-red-50">
-          Rechazar
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <button className={cn(buttonVariants({ size: "sm", variant: "outline" }), "text-red-600 border-red-200 hover:bg-red-50")}>
+            Rechazar
+          </button>
+        }
+      />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Rechazar plan de vuelo</DialogTitle>

@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StatusBadge } from "./status-badge";
 import { EmptyState } from "./empty-state";
@@ -18,6 +18,7 @@ import { ApproveButton } from "./approve-button";
 import { RejectDialog } from "./reject-dialog";
 import type { FlightPlanPublic } from "@/types/api";
 import { formatDateTime, formatRoute } from "@/lib/utils/format";
+import { cn } from "@/lib/utils";
 
 interface FlightPlanTableProps {
   plans: FlightPlanPublic[] | undefined;
@@ -98,9 +99,12 @@ export function FlightPlanTable({
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={`/dashboard/${plan.id}`}>Ver detalle</Link>
-                  </Button>
+                  <Link
+                    href={`/dashboard/${plan.id}`}
+                    className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+                  >
+                    Ver detalle
+                  </Link>
                   <ApproveButton planId={plan.id} />
                   <RejectDialog planId={plan.id} />
                 </div>
