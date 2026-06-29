@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Plane, LogOut, ChevronDown } from "lucide-react";
+import {
+  LayoutDashboard,
+  Plane,
+  LogOut,
+  ChevronDown,
+  Workflow,
+} from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -36,7 +42,7 @@ export function Sidebar() {
           href="/dashboard"
           className={cn(
             "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-            pathname.startsWith("/dashboard")
+            pathname.startsWith("/dashboard") && !pathname.startsWith("/dashboard/blocks")
               ? "bg-blue-50 text-blue-700"
               : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
           )}
@@ -44,6 +50,21 @@ export function Sidebar() {
           <LayoutDashboard className="h-4 w-4" />
           Dashboard
         </Link>
+
+        {user?.role === "atc_authority" && (
+          <Link
+            href="/dashboard/blocks"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              pathname === "/dashboard/blocks"
+                ? "bg-blue-50 text-blue-700"
+                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+            )}
+          >
+            <Workflow className="h-4 w-4" />
+            Bloques de validación
+          </Link>
+        )}
       </nav>
 
       {/* User */}

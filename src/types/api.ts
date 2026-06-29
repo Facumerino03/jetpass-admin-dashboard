@@ -150,3 +150,67 @@ export interface ValidationError {
 export interface HTTPValidationError {
   detail: ValidationError[];
 }
+
+// ── Validation Engine ──
+
+export type ValidationOperator =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "contains"
+  | "not_contains"
+  | "is_present"
+  | "is_absent";
+
+export type ValidationResult = "approve" | "warn" | "reject";
+
+export interface ValidationField {
+  field_path: string;
+  item: number;
+  label: string;
+}
+
+export interface ValidationCriterion {
+  id: string;
+  name: string;
+  field_path: string;
+  operator: ValidationOperator;
+  expected_value: string | null;
+  result_on_pass: ValidationResult;
+  result_on_fail: ValidationResult;
+  pass_message: string | null;
+  fail_message: string | null;
+  is_active: boolean;
+}
+
+export interface ValidationBlock {
+  id: string;
+  created_by_user_id: string;
+  name: string;
+  is_active: boolean;
+  criteria: ValidationCriterion[];
+  criteria_count: number;
+}
+
+export interface ValidationRunRequest {
+  flight_plan_id: string;
+  block_id: string;
+}
+
+export interface ValidationRunResult {
+  overall: "approved" | "warned" | "rejected";
+  results: Array<{
+    criterion_id: string;
+    criterion_name: string;
+    field_path: string;
+    operator: ValidationOperator;
+    expected_value: string | null;
+    actual_value: string | null;
+    passed: boolean;
+    result_applied: ValidationResult;
+    message: string | null;
+  }>;
+}

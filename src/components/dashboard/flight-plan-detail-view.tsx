@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
@@ -5,11 +7,10 @@ import { StatusBadge } from "./status-badge";
 import { ApproveButton } from "./approve-button";
 import { RejectDialog } from "./reject-dialog";
 import { ApprovalTimeline } from "./approval-timeline";
+import { ValidationPanel } from "@/components/blocks/validation-panel";
+import { useAuth } from "@/lib/auth/auth-context";
 import type { FlightPlanDetail } from "@/types/api";
-import {
-  getFlightRulesLabel,
-  getFlightTypeLabel,
-} from "@/lib/utils/labels";
+import { getFlightRulesLabel, getFlightTypeLabel } from "@/lib/utils/labels";
 import {
   formatDateTime,
   formatDuration,
@@ -32,7 +33,9 @@ function Field({ label, value }: { label: string; value: string }) {
 }
 
 export function FlightPlanDetailView({ plan }: FlightPlanDetailViewProps) {
+  const { user } = useAuth();
   const canApprove = plan.status === "pending_approval";
+  const isAuthority = user?.role === "atc_authority";
 
   return (
     <div className="space-y-6">
@@ -142,8 +145,9 @@ export function FlightPlanDetailView({ plan }: FlightPlanDetailViewProps) {
           </Card>
         </div>
 
-        {/* Timeline sidebar */}
-        <div className="lg:col-span-1">
+        {/* Sidebar derecha */}
+        <div className="lg:col-span-1 space-y-6">
+          {isAuthority && <ValidationPanel flightPlanId={plan.id} />}
           <Card className="sticky top-8">
             <CardHeader>
               <CardTitle className="text-base">Línea de Tiempo</CardTitle>
